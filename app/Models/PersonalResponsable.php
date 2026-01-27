@@ -9,6 +9,7 @@ class PersonalResponsable extends Model
     protected $fillable = [
         'cargo_id',
         'nombre_completo',
+        'email',
         'telefono',
     ];
 

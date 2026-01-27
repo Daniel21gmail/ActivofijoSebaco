@@ -43,6 +43,24 @@ class ReporteController extends Controller
             // For preview, we just send the objects, calculation happens in Vue or we append generic attribute
             $previewData = $this->getFilteredQuery($request)->paginate(15)->withQueryString();
 
+        } elseif ($reportType === 'mantenimientos') {
+            $query = \App\Models\Mantenimiento::with([
+                'activoFijo',
+                'proveedor',
+                'responsable',
+                'creadoPor'
+            ])->orderBy('fecha_inicio', 'desc');
+
+            if ($request->fecha_inicio && $request->fecha_fin) {
+                $query->whereBetween('fecha_inicio', [$request->fecha_inicio, $request->fecha_fin]);
+            }
+
+            if ($request->responsable_id) {
+                $query->where('responsable_id', $request->responsable_id);
+            }
+
+            $previewData = $query->paginate(15)->withQueryString();
+
         } elseif ($reportType === 'categoria') {
             // Group by category for preview
             $categorias = \App\Models\Categoria::withCount('activosFijos')
@@ -150,6 +168,10 @@ class ReporteController extends Controller
 
         if ($reportType === 'categoria') {
             return $this->downloadCategoriaPdf($request);
+        }
+
+        if ($reportType === 'mantenimientos') {
+            return $this->downloadMantenimientosPdf($request);
         }
 
         // Default: Inventario / Others fallback to standard list for now
@@ -270,5 +292,35 @@ class ReporteController extends Controller
             ->setPaper('letter', 'portrait');
 
         return $pdf->stream('reporte_categoria_' . date('Y-m-d_H-i') . '.pdf');
+    }
+    private function downloadMantenimientosPdf(Request $request)
+    {
+        $query = \App\Models\Mantenimiento::with([
+            'activoFijo',
+            'proveedor',
+            'responsable',
+            'creadoPor'
+        ])->orderBy('fecha_inicio', 'desc');
+
+        if ($request->fecha_inicio && $request->fecha_fin) {
+            $query->whereBetween('fecha_inicio', [$request->fecha_inicio, $request->fecha_fin]);
+        }
+
+        if ($request->responsable_id) {
+            $query->where('responsable_id', $request->responsable_id);
+        }
+
+        $mantenimientos = $query->get();
+
+        $filters = [
+            'fecha_inicio' => $request->fecha_inicio,
+            'fecha_fin' => $request->fecha_fin,
+            'responsable' => $request->responsable_id ? PersonalResponsable::find($request->responsable_id)?->nombre_completo : 'Todos'
+        ];
+
+        $pdf = Pdf::loadView('reports.mantenimientos', compact('mantenimientos', 'filters'))
+            ->setPaper('letter', 'landscape');
+
+        return $pdf->stream('reporte_mantenimientos_' . date('Y-m-d_H-i') . '.pdf');
     }
 }

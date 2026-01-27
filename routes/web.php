@@ -65,6 +65,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('terrenos', TerrenoController::class);
     Route::post('movimientos', [MovimientoController::class, 'store'])->name('movimientos.store');
     Route::post('mantenimientos', [MantenimientoController::class, 'store'])->name('mantenimientos.store');
+    Route::get('/mantenimientos/{id}/imprimir', [MantenimientoController::class, 'print'])->name('mantenimientos.print');
     Route::post('bajas-activos', [BajaActivoController::class, 'store'])->name('bajas-activos.store');
     Route::get('/activos-fijos/{activoFijo}/print', [ActivoFijoController::class, 'print'])->name('activos-fijos.print');
 

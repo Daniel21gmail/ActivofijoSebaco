@@ -22,6 +22,7 @@ class PersonalResponsableController extends Controller
         $request->validate([
             'nombre_completo' => 'required|string|max:150',
             'cargo_id' => 'required|exists:cargos,id',
+            'email' => 'nullable|email|max:150',
             'telefono' => 'nullable|string|max:20'
         ]);
         PersonalResponsable::create($request->all());
@@ -33,6 +34,7 @@ class PersonalResponsableController extends Controller
         $request->validate([
             'nombre_completo' => 'required|string|max:150',
             'cargo_id' => 'required|exists:cargos,id',
+            'email' => 'nullable|email|max:150',
             'telefono' => 'nullable|string|max:20'
         ]);
         $personalResponsable->update($request->all());

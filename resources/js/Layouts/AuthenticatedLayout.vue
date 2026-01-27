@@ -36,6 +36,7 @@ const isActivosRoute = () => {
 
 const catalogDropdownOpen = ref(isCatalogRoute());
 const activosFijosDropdownOpen = ref(isActivosRoute());
+const reportDropdownOpen = ref(route().current('reportes.*'));
 const page = usePage();
 const { auth } = page.props;
 
@@ -205,12 +206,26 @@ fetchUnreadCount();
                     </div>
 
                     <!-- Reportes -->
-                     <Link :href="route('reportes.index')" 
-                           class="sidebar-link"
-                           :class="{ 'active': route().current('reportes.*') }">
-                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                        <span>Reportes</span>
-                    </Link>
+                    <div class="space-y-1">
+                        <div @click="reportDropdownOpen = !reportDropdownOpen" 
+                             class="sidebar-link justify-between cursor-pointer group"
+                             :class="{ 'active': route().current('reportes.*') }">
+                            <div class="flex items-center gap-3">
+                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                                <span>Reportes</span>
+                            </div>
+                            <svg class="h-4 w-4 text-gray-400 group-hover:text-white transition-transform duration-200" 
+                                 :class="{'rotate-180': reportDropdownOpen}"
+                                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                        
+                        <div v-show="reportDropdownOpen" class="mt-1 ml-4 pl-4 border-l border-gray-700/50 space-y-1">
+                            <Link :href="route('reportes.index', { report_type: 'inventario' })" class="sidebar-sublink" :class="{'text-white': route().current('reportes.index')}">General</Link>
+                            <Link :href="route('reportes.index', { report_type: 'mantenimientos' })" class="sidebar-sublink" :class="{'text-white': route().current('reportes.index') && $page.props.filters?.report_type === 'mantenimientos'}">Mantenimientos</Link>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- SEGURIDAD -->

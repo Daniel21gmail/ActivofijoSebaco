@@ -9,6 +9,7 @@ defineProps({
 const columns = [
     { key: 'nombre_completo', label: 'Nombre Completo' },
     { key: 'cargo_id', label: 'Cargo', type: 'select', optionsKey: 'cargos', relationName: 'cargo', relationField: 'nombre' },
+    { key: 'email', label: 'Email', type: 'email' },
     { key: 'telefono', label: 'Teléfono' },
 ];
 </script>

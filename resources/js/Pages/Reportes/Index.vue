@@ -2,13 +2,14 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
-import { ClipboardList, BarChart3, Layers, Activity, BookOpen, CalendarDays } from 'lucide-vue-next';
+import { ClipboardList, BarChart3, Layers, Activity, BookOpen, CalendarDays, Wrench } from 'lucide-vue-next';
 
 const reportOptions = [
     { id: 'inventario', label: 'Inventario General', desc: 'Listado completo y detallado de todos los activos fijos registrados.', icon: ClipboardList, color: 'text-blue-500', bg: 'bg-blue-50 dark:bg-blue-900/20' },
     { id: 'depreciacion', label: 'Cálculo Depreciación', desc: 'Análisis del valor actual, desgaste acumulado y proyección contable.', icon: BarChart3, color: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-900/20' },
     { id: 'categoria', label: 'Por Categoría', desc: 'Clasificación organizada de bienes según su naturaleza técnica.', icon: Layers, color: 'text-indigo-500', bg: 'bg-indigo-50 dark:bg-indigo-900/20' },
     { id: 'acciones', label: 'Movimientos de Activos', desc: 'Auditoría completa de movimientos, cambios y gestiones realizadas.', icon: Activity, color: 'text-amber-500', bg: 'bg-amber-50 dark:bg-amber-900/20' },
+    { id: 'mantenimientos', label: 'Mantenimientos', desc: 'Reporte detallado de mantenimientos preventivos y correctivos.', icon: Wrench, color: 'text-rose-500', bg: 'bg-rose-50 dark:bg-rose-900/20' },
     { id: 'libro_activos', label: 'Libro de Activos', desc: 'Registro pormenorizado para cumplimiento de normativas externas.', icon: BookOpen, color: 'text-purple-500', bg: 'bg-purple-50 dark:bg-purple-900/20' },
     { id: 'resumen_mensual', label: 'Resumen Mensual', desc: 'Consolidado de altas y bajas durante el ciclo de operación actual.', icon: CalendarDays, color: 'text-cyan-500', bg: 'bg-cyan-50 dark:bg-cyan-900/20' },
 ];
@@ -184,7 +185,7 @@ const clearFilters = () => {
                          <!-- Dynamic Filters -->
                         <div class="space-y-4">
                             <!-- Category Filter -->
-                            <div v-if="selectedReport.id !== 'acciones'">
+                            <div v-if="selectedReport.id !== 'acciones' && selectedReport.id !== 'mantenimientos'">
                                 <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">CATEGORÍA</label>
                                 <select v-model="filters.categoria_id" class="w-full bg-gray-50 border border-gray-200 text-gray-700 py-2 px-3 rounded-lg focus:outline-none focus:border-[#2D2E83] transition-colors text-xs">
                                     <option value="">Todas</option>
@@ -193,7 +194,7 @@ const clearFilters = () => {
                             </div>
 
                             <!-- Department Filter -->
-                            <div v-if="selectedReport.id !== 'acciones'">
+                            <div v-if="selectedReport.id !== 'acciones' && selectedReport.id !== 'mantenimientos'">
                                 <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">DEPARTAMENTO</label>
                                 <select v-model="filters.departamento_id" class="w-full bg-gray-50 border border-gray-200 text-gray-700 py-2 px-3 rounded-lg focus:outline-none focus:border-[#2D2E83] transition-colors text-xs">
                                     <option value="">Todos</option>
@@ -202,7 +203,7 @@ const clearFilters = () => {
                             </div>
 
                              <!-- Location Filter -->
-                            <div v-if="selectedReport.id !== 'acciones'">
+                            <div v-if="selectedReport.id !== 'acciones' && selectedReport.id !== 'mantenimientos'">
                                 <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">UBICACIÓN</label>
                                 <select v-model="filters.ubicacion_id" class="w-full bg-gray-50 border border-gray-200 text-gray-700 py-2 px-3 rounded-lg focus:outline-none focus:border-[#2D2E83] transition-colors text-xs">
                                     <option value="">Todas</option>
@@ -286,6 +287,14 @@ const clearFilters = () => {
                                             <th class="px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Responsable</th>
                                         </template>
 
+                                        <template v-else-if="selectedReport.id === 'mantenimientos'">
+                                            <th class="px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Fecha</th>
+                                            <th class="px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Activo</th>
+                                            <th class="px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Tipo</th>
+                                            <th class="px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Costo</th>
+                                            <th class="px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Responsable</th>
+                                        </template>
+
                                         <template v-else-if="selectedReport.id === 'depreciacion'">
                                             <th class="px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">ID</th>
                                             <th class="px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Nombre</th>
@@ -326,6 +335,16 @@ const clearFilters = () => {
                                             <td class="px-6 py-3 text-xs text-gray-500">{{ item.ubicacion_origen?.nombre || '-' }}</td>
                                             <td class="px-6 py-3 text-xs text-gray-500">{{ item.ubicacion_destino?.nombre || '-' }}</td>
                                             <td class="px-6 py-3 text-xs text-gray-500">{{ item.responsable_destino?.nombre_completo || '-' }}</td>
+                                         </template>
+
+                                         <template v-else-if="selectedReport.id === 'mantenimientos'">
+                                            <td class="px-6 py-3 text-xs font-semibold text-gray-900">{{ item.fecha_inicio }}</td>
+                                            <td class="px-6 py-3">
+                                                <div class="text-xs font-bold text-gray-900">{{ item.activo_fijo?.codigo }}</div>
+                                            </td>
+                                            <td class="px-6 py-3 text-xs text-gray-500">{{ item.tipo }}</td>
+                                            <td class="px-6 py-3 text-xs font-bold text-rose-600">C$ {{ item.costo }}</td>
+                                            <td class="px-6 py-3 text-xs text-gray-500">{{ item.responsable?.nombre_completo || '-' }}</td>
                                          </template>
 
                                           <!-- Rows for Depreciation -->

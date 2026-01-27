@@ -654,7 +654,7 @@ const onDrop = (e) => {
                             <div class="bg-white border-2 border-gray-900 rounded-xl overflow-hidden shadow-sm">
                                 <div class="bg-gray-100 px-4 py-2 border-b-2 border-gray-900 flex items-center justify-between">
                                     <span class="text-xs font-black text-gray-900 uppercase tracking-widest">I. Datos de Identificación y Especificaciones</span>
-                                    <span class="text-[10px] font-black bg-gray-900 text-white px-2 py-0.5 rounded italic">Folio: {{ viewingItem?.codigo }}</span>
+                                    <span class="text-[9px] font-black bg-gray-900 text-white px-2 py-0.5 rounded italic uppercase">CÓDIGO INVENTARIO: {{ viewingItem?.codigo }}</span>
                                 </div>
                                 <div class="p-6">
                                     <h3 class="text-2xl font-black text-gray-900 uppercase tracking-tight mb-6 border-l-4 border-indigo-600 pl-4">{{ viewingItem?.descripcion }}</h3>
@@ -716,50 +716,50 @@ const onDrop = (e) => {
                             </div>
 
                             <!-- Section III -->
-                            <div class="bg-gray-900 rounded-xl overflow-hidden shadow-lg shadow-gray-200">
-                                <div class="bg-white/10 px-4 py-2 border-b border-white/10 backdrop-blur-sm">
-                                    <span class="text-xs font-black text-white uppercase tracking-widest">III. Registro Financiero{{ viewingItem?.terreno ? '' : ' y Depreciación' }}</span>
+                            <div class="bg-white border-2 border-gray-900 rounded-xl overflow-hidden shadow-sm">
+                                <div class="bg-gray-100 px-4 py-2 border-b-2 border-gray-900">
+                                    <span class="text-xs font-black text-gray-900 uppercase tracking-widest">III. Registro Financiero{{ viewingItem?.terreno ? '' : ' y Depreciación' }}</span>
                                 </div>
                                 <div class="p-6">
                                     <div :class="viewingItem?.terreno ? 'grid-cols-2' : 'grid-cols-2 md:grid-cols-3'" class="grid gap-6">
                                         <div>
-                                            <p class="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1">Costo Adquisición</p>
-                                            <p class="text-lg font-black text-white font-mono tracking-tighter">C$ {{ formatCurrency(viewingItem?.valor_adquisicion).replace('NIO','').replace('C$','').trim() }}</p>
+                                            <p class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-1 h-10 flex items-center">Costo Adquisición</p>
+                                            <p class="text-sm font-black text-gray-900 font-mono tracking-tighter">C$ {{ formatCurrency(viewingItem?.valor_adquisicion).replace('NIO','').replace('C$','').trim() }}</p>
                                         </div>
-                                        <div v-if="!viewingItem?.terreno" class="border-x border-white/10 px-6">
-                                            <p class="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1">Valor Residual (1%)</p>
-                                            <p class="text-lg font-black text-amber-400 font-mono tracking-tighter">C$ {{ formatCurrency(viewingItem?.valor_residual || 0).replace('NIO','').replace('C$','').trim() }}</p>
+                                        <div v-if="!viewingItem?.terreno" class="border-x border-gray-100 px-6">
+                                            <p class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-1 h-10 flex items-center">Valor Residual (1%)</p>
+                                            <p class="text-sm font-black text-amber-600 font-mono tracking-tighter">C$ {{ formatCurrency(viewingItem?.valor_residual || 0).replace('NIO','').replace('C$','').trim() }}</p>
                                         </div>
-                                        <div :class="viewingItem?.terreno ? '' : 'border-l border-white/10 pl-6'">
-                                            <p class="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1">Valor en Libros</p>
-                                            <p class="text-lg font-black text-emerald-400 font-mono tracking-tighter">C$ {{ formatCurrency(viewingItem?.valor_libros || 0).replace('NIO','').replace('C$','').trim() }}</p>
+                                        <div :class="viewingItem?.terreno ? '' : 'border-l border-gray-100 pl-6'">
+                                            <p class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-1 h-10 flex items-center">Valor en Libros</p>
+                                            <p class="text-sm font-black text-emerald-600 font-mono tracking-tighter">C$ {{ formatCurrency(viewingItem?.valor_libros || 0).replace('NIO','').replace('C$','').trim() }}</p>
                                         </div>
                                     </div>
 
-                                    <div v-if="!viewingItem?.terreno" class="mt-6 pt-6 border-t border-white/10 grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    <div v-if="!viewingItem?.terreno" class="mt-6 pt-6 border-t border-gray-100 grid grid-cols-1 md:grid-cols-3 gap-6">
                                         <div>
-                                            <p class="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1">Depreciación Anual</p>
-                                            <p class="text-sm font-black text-white font-mono uppercase tracking-tighter">C$ {{ formatCurrency(viewingItem?.depreciacion_anual || 0).replace('NIO','').replace('C$','').trim() }}</p>
+                                            <p class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-1 h-10 flex items-center">Depreciación Anual</p>
+                                            <p class="text-sm font-black text-gray-900 font-mono uppercase tracking-tighter">C$ {{ formatCurrency(viewingItem?.depreciacion_anual || 0).replace('NIO','').replace('C$','').trim() }}</p>
                                         </div>
-                                        <div class="border-x border-white/10 px-6">
-                                            <p class="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1">Depreciación Mensual</p>
-                                            <p class="text-sm font-black text-white font-mono uppercase tracking-tighter">C$ {{ formatCurrency(viewingItem?.depreciacion_mensual || 0).replace('NIO','').replace('C$','').trim() }}</p>
+                                        <div class="border-x border-gray-100 px-6">
+                                            <p class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-1 h-10 flex items-center">Depreciación Mensual</p>
+                                            <p class="text-sm font-black text-gray-900 font-mono uppercase tracking-tighter">C$ {{ formatCurrency(viewingItem?.depreciacion_mensual || 0).replace('NIO','').replace('C$','').trim() }}</p>
                                         </div>
                                         <div>
-                                            <p class="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1">Depreciación Acumulada</p>
-                                            <p class="text-sm font-black text-rose-400 font-mono uppercase tracking-tighter">C$ {{ formatCurrency(viewingItem?.depreciacion_acumulada || 0).replace('NIO','').replace('C$','').trim() }}</p>
+                                            <p class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-1 h-10 flex items-center">Depreciación Acumulada</p>
+                                            <p class="text-sm font-black text-rose-600 font-mono uppercase tracking-tighter">C$ {{ formatCurrency(viewingItem?.depreciacion_acumulada || 0).replace('NIO','').replace('C$','').trim() }}</p>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="bg-white/5 p-4 flex justify-between items-center text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                                <div class="bg-gray-50 border-t border-gray-100 p-4 flex justify-between items-center text-[10px] font-black text-gray-400 uppercase tracking-widest">
                                     <div class="flex items-center gap-4">
                                         <span>Fecha Reg: {{ viewingItem?.fecha_adquisicion }}</span>
-                                        <span class="h-1 w-1 bg-gray-600 rounded-full"></span>
+                                        <span class="h-1 w-1 bg-gray-300 rounded-full"></span>
                                         <span>Útil: {{ viewingItem?.vida_util }} AÑOS</span>
-                                        <span class="h-1 w-1 bg-gray-600 rounded-full"></span>
-                                        <span class="text-white">Fuente: {{ viewingItem?.fuente?.nombre || 'FONDOS PROPIOS' }}</span>
+                                        <span class="h-1 w-1 bg-gray-300 rounded-full"></span>
+                                        <span class="text-gray-900">Fuente: {{ viewingItem?.fuente?.nombre || 'FONDOS PROPIOS' }}</span>
                                     </div>
-                                    <span class="text-indigo-400">Garantía Activa</span>
+                                    <span class="text-indigo-600">Garantía Activa</span>
                                 </div>
                             </div>
                         </div>
@@ -1148,7 +1148,16 @@ const onDrop = (e) => {
                                 <span class="text-[9px] font-black bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full uppercase tracking-widest">{{ m.tipo }}</span>
                                 <p class="text-[10px] font-black text-gray-900 uppercase mt-2 tracking-tight">{{ m.fecha_inicio }}</p>
                             </div>
-                            <p class="text-sm font-black text-emerald-600 font-mono tracking-tighter">C$ {{ formatCurrency(m.costo).replace('NIO','').replace('C$','').trim() }}</p>
+                            <div class="flex flex-col items-end gap-2">
+                                <p class="text-sm font-black text-emerald-600 font-mono tracking-tighter">C$ {{ formatCurrency(m.costo).replace('NIO','').replace('C$','').trim() }}</p>
+                                <a :href="route('mantenimientos.print', m.id)" 
+                                   target="_blank"
+                                   class="p-1.5 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg transition-colors flex items-center gap-1.5 px-2"
+                                   title="Imprimir Comprobante">
+                                    <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9v4a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+                                    <span class="text-[9px] font-black uppercase tracking-tighter">Imprimir</span>
+                                </a>
+                            </div>
                         </div>
                         <div class="grid grid-cols-2 gap-4 text-[10px]">
                             <div>

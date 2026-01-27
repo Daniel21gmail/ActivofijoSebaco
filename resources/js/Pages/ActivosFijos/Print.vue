@@ -97,30 +97,30 @@ onMounted(() => {
                 <table class="w-full border-2 border-black border-collapse tabular-nums">
                     <tr class="border-b-2 border-black">
                         <td class="w-1/4 px-4 py-3 bg-white border-r-2 border-black">
-                            <p class="text-[10px] font-bold text-black uppercase">Código Inventario:</p>
+                            <p class="text-sm font-bold text-black uppercase">CÓDIGO INVENTARIO:</p>
                         </td>
                         <td class="w-1/4 px-4 py-3 bg-white border-r-2 border-black">
-                            <p class="text-xl font-black text-black">{{ item.codigo }}</p>
+                            <p class="text-sm font-black text-black">{{ item.codigo }}</p>
                         </td>
                         <td class="w-1/4 px-4 py-3 bg-white border-r-2 border-black">
-                            <p class="text-[10px] font-bold text-black uppercase">Categoría:</p>
+                            <p class="text-sm font-bold text-black uppercase">Categoría:</p>
                         </td>
                         <td class="w-1/4 px-4 py-3 bg-white">
-                            <p class="text-xs font-bold text-black uppercase">{{ item.categoria?.nombre || 'General' }}</p>
+                            <p class="text-sm font-bold text-black uppercase">{{ item.categoria?.nombre || 'General' }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td class="px-4 py-3 bg-white border-r-2 border-black">
-                            <p class="text-[10px] font-bold text-black uppercase">Nombre del Bien:</p>
+                            <p class="text-sm font-bold text-black uppercase">Nombre del Bien:</p>
                         </td>
                         <td class="px-4 py-3 bg-white border-r-2 border-black">
-                            <p class="text-xs font-bold text-black uppercase">{{ item.descripcion }}</p>
+                            <p class="text-sm font-bold text-black uppercase">{{ item.descripcion }}</p>
                         </td>
                         <td class="px-4 py-3 bg-white border-r-2 border-black">
-                            <p class="text-[10px] font-bold text-black uppercase">Estado Actual:</p>
+                            <p class="text-sm font-bold text-black uppercase">Estado Actual:</p>
                         </td>
                         <td class="px-4 py-3 bg-white">
-                            <p class="text-xs font-bold text-black uppercase">{{ item.estado_activo?.nombre }}</p>
+                            <p class="text-sm font-bold text-black uppercase">{{ item.estado_activo?.nombre }}</p>
                         </td>
                     </tr>
                 </table>
@@ -134,30 +134,30 @@ onMounted(() => {
                 <table class="w-full border-2 border-black border-collapse">
                     <tr class="border-b-2 border-black">
                         <td class="w-1/5 px-4 py-2.5 bg-white border-r-2 border-black">
-                            <p class="text-[10px] font-bold text-black uppercase">Marca:</p>
+                            <p class="text-sm font-bold text-black uppercase">Marca:</p>
                         </td>
                         <td class="w-1/3 px-4 py-2.5 bg-white border-r-2 border-black">
-                            <p class="text-xs font-bold text-gray-800 uppercase">{{ item.marca?.nombre }}</p>
+                            <p class="text-sm font-bold text-black uppercase">{{ item.marca?.nombre }}</p>
                         </td>
                         <td class="w-1/5 px-4 py-2.5 bg-white border-r-2 border-black">
-                            <p class="text-[10px] font-bold text-black uppercase">Modelo:</p>
+                            <p class="text-sm font-bold text-black uppercase">Modelo:</p>
                         </td>
                         <td class="px-4 py-2.5 bg-white">
-                            <p class="text-xs font-bold text-gray-800 uppercase">{{ item.modelo?.nombre }}</p>
+                            <p class="text-sm font-bold text-black uppercase">{{ item.modelo?.nombre }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td class="px-4 py-2.5 bg-white border-r-2 border-black">
-                            <p class="text-[10px] font-bold text-black uppercase">Color:</p>
+                            <p class="text-sm font-bold text-black uppercase">Color:</p>
                         </td>
                         <td class="px-4 py-2.5 bg-white border-r-2 border-black">
-                            <p class="text-xs font-bold text-gray-800 uppercase">{{ item.color?.nombre }}</p>
+                            <p class="text-sm font-bold text-black uppercase">{{ item.color?.nombre }}</p>
                         </td>
                         <td class="px-4 py-2.5 bg-white border-r-2 border-black">
-                            <p class="text-[10px] font-bold text-black uppercase">Serie:</p>
+                            <p class="text-sm font-bold text-black uppercase">Serie:</p>
                         </td>
                         <td class="px-4 py-2.5 bg-white">
-                            <p class="text-xs font-mono font-bold text-gray-800 uppercase">{{ item.serie || 'S/N' }}</p>
+                            <p class="text-sm font-mono font-bold text-black uppercase">{{ item.serie || 'S/N' }}</p>
                         </td>
                     </tr>
                 </table>
@@ -171,23 +171,23 @@ onMounted(() => {
                 <table class="w-full border-2 border-black border-collapse">
                     <tr class="border-b-2 border-black">
                         <td class="w-1/4 px-4 py-2.5 bg-white border-r-2 border-black">
-                            <p class="text-[10px] font-bold text-black uppercase">Departamento / Área:</p>
+                            <p class="text-sm font-bold text-black uppercase">Departamento / Área:</p>
                         </td>
                         <td class="px-4 py-2.5 bg-white">
-                            <p class="text-xs font-bold text-black uppercase">{{ item.departamento?.nombre }}</p>
+                            <p class="text-sm font-bold text-black uppercase">{{ item.departamento?.nombre }}</p>
                         </td>
                     </tr>
                     <tr class="border-b-2 border-black">
                         <td class="px-4 py-2.5 bg-white border-r-2 border-black">
-                            <p class="text-[10px] font-bold text-black uppercase">Ubicación Física:</p>
+                            <p class="text-sm font-bold text-black uppercase">Ubicación Física:</p>
                         </td>
                         <td class="px-4 py-2.5 bg-white">
-                            <p class="text-xs font-bold text-black uppercase">{{ item.ubicacion?.nombre }}</p>
+                            <p class="text-sm font-bold text-black uppercase">{{ item.ubicacion?.nombre }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td class="px-4 py-2.5 bg-white border-r-2 border-black">
-                            <p class="text-[10px] font-bold text-black uppercase">Responsable Asignado:</p>
+                            <p class="text-sm font-bold text-black uppercase">Responsable Asignado:</p>
                         </td>
                         <td class="px-4 py-2.5 bg-white">
                             <p class="text-sm font-black text-black uppercase">{{ item.responsable?.nombre_completo || 'SIN ASIGNAR' }}</p>
@@ -213,15 +213,15 @@ onMounted(() => {
                     </div>
                     <div class="p-4 space-y-4">
                         <div class="flex justify-between items-end border-b border-gray-100 pb-1">
-                            <span class="text-[9px] font-bold text-gray-500 uppercase">Valor de Adquisición:</span>
-                            <span class="text-xs font-black text-black">{{ formatCurrency(item.valor_adquisicion).replace('NIO', 'C$') }}</span>
+                            <span class="text-sm font-bold text-gray-500 uppercase">Valor de Adquisición:</span>
+                            <span class="text-sm font-black text-black">{{ formatCurrency(item.valor_adquisicion).replace('NIO', 'C$') }}</span>
                         </div>
                         <div class="flex justify-between items-end border-b border-gray-100 pb-1">
-                            <span class="text-[9px] font-bold text-gray-500 uppercase">Vida Útil:</span>
-                            <span class="text-xs font-black text-black">{{ item.vida_util }} Años</span>
+                            <span class="text-sm font-bold text-gray-500 uppercase">Vida Útil:</span>
+                            <span class="text-sm font-black text-black">{{ item.vida_util }} Años</span>
                         </div>
                         <div class="flex justify-between items-end">
-                            <span class="text-[9px] font-bold text-indigo-600 uppercase">Valor Neto Actual:</span>
+                            <span class="text-sm font-bold text-indigo-600 uppercase">Valor Neto Actual:</span>
                             <span class="text-sm font-black text-indigo-700">{{ formatCurrency(item.valor_libros).replace('NIO', 'C$') }}</span>
                         </div>
                     </div>
@@ -233,13 +233,13 @@ onMounted(() => {
                 <div class="grid grid-cols-2 gap-24">
                     <div class="text-center">
                         <div class="border-b-2 border-black mb-2 w-full mx-auto"></div>
-                        <p class="text-[10px] font-black text-black uppercase tracking-widest">Firma del Responsable</p>
-                        <p class="text-[9px] text-gray-500 font-medium uppercase mt-1">{{ item.responsable?.nombre_completo || 'SIN ASIGNAR' }}</p>
+                        <p class="text-sm font-black text-black uppercase tracking-widest">Firma del Responsable</p>
+                        <p class="text-sm text-black font-bold uppercase mt-1">{{ item.responsable?.nombre_completo || 'SIN ASIGNAR' }}</p>
                     </div>
                     <div class="text-center">
                         <div class="border-b-2 border-black mb-2 w-full mx-auto"></div>
-                        <p class="text-[10px] font-black text-black uppercase tracking-widest">Autorizado (Bienes Municipales)</p>
-                        <p class="text-[9px] text-gray-500 font-medium uppercase mt-1">SIAFSEB - SEBACO</p>
+                        <p class="text-sm font-black text-black uppercase tracking-widest">Autorizado (Bienes Municipales)</p>
+                        <p class="text-sm text-black font-bold uppercase mt-1">SIAFSEB - SEBACO</p>
                     </div>
                 </div>
             </div>
