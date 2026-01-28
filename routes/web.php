@@ -21,18 +21,15 @@ use App\Http\Controllers\MantenimientoController;
 use App\Http\Controllers\BajaActivoController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\VehiculoController;
+
 use App\Http\Controllers\TerrenoController;
+use App\Http\Controllers\BackupController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return redirect()->route('login');
 });
 
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])
@@ -80,6 +77,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/notifications/{id}/read', [App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.read');
     Route::post('/notifications/read-all', [App\Http\Controllers\NotificationController::class, 'markAllAsRead'])->name('notifications.read-all');
     Route::delete('/notifications/{id}', [App\Http\Controllers\NotificationController::class, 'destroy'])->name('notifications.destroy');
+
+    // Backups
+    Route::get('/backups', [BackupController::class, 'index'])->name('backups.index');
+    Route::post('/backups', [BackupController::class, 'store'])->name('backups.store');
+    Route::get('/backups/{filename}', [BackupController::class, 'download'])->name('backups.download');
+    Route::delete('/backups/{filename}', [BackupController::class, 'destroy'])->name('backups.destroy');
 });
 
 require __DIR__ . '/auth.php';

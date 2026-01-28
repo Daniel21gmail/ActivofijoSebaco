@@ -207,24 +207,14 @@ fetchUnreadCount();
 
                     <!-- Reportes -->
                     <div class="space-y-1">
-                        <div @click="reportDropdownOpen = !reportDropdownOpen" 
-                             class="sidebar-link justify-between cursor-pointer group"
-                             :class="{ 'active': route().current('reportes.*') }">
+                        <Link :href="route('reportes.index')" 
+                              class="sidebar-link"
+                              :class="{ 'active': route().current('reportes.*') }">
                             <div class="flex items-center gap-3">
                                 <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                                 <span>Reportes</span>
                             </div>
-                            <svg class="h-4 w-4 text-gray-400 group-hover:text-white transition-transform duration-200" 
-                                 :class="{'rotate-180': reportDropdownOpen}"
-                                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                            </svg>
-                        </div>
-                        
-                        <div v-show="reportDropdownOpen" class="mt-1 ml-4 pl-4 border-l border-gray-700/50 space-y-1">
-                            <Link :href="route('reportes.index', { report_type: 'inventario' })" class="sidebar-sublink" :class="{'text-white': route().current('reportes.index')}">General</Link>
-                            <Link :href="route('reportes.index', { report_type: 'mantenimientos' })" class="sidebar-sublink" :class="{'text-white': route().current('reportes.index') && $page.props.filters?.report_type === 'mantenimientos'}">Mantenimientos</Link>
-                        </div>
+                        </Link>
                     </div>
                 </div>
 
@@ -243,6 +233,13 @@ fetchUnreadCount();
                               :class="{ 'active': route().current('roles.*') }">
                             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                             <span>Roles</span>
+                        </Link>
+                        <Link v-if="auth.user.role?.nombre === 'Administrador'" 
+                              :href="route('backups.index')" 
+                              class="sidebar-link"
+                              :class="{ 'active': route().current('backups.*') }">
+                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/></svg>
+                            <span>Respaldo</span>
                         </Link>
                     </div>
                 </div>

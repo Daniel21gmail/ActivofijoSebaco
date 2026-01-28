@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Historial de Acciones</title>
+    <title>Reporte de Usuarios y Accesos</title>
     <style>
         body {
             font-family: sans-serif;
@@ -12,14 +12,15 @@
         .header {
             text-align: center;
             margin-bottom: 20px;
-            border-bottom: 2px solid #F59E0B;
+            border-bottom: 2px solid #2D2E83;
+            /* Official Navy Blue */
             padding-bottom: 10px;
         }
 
         .title {
             font-size: 16px;
             font-weight: bold;
-            color: #d97706;
+            color: #2D2E83;
         }
 
         .subtitle {
@@ -35,34 +36,28 @@
         }
 
         th {
-            background-color: #F59E0B;
+            background-color: #2D2E83;
             color: white;
-            padding: 6px;
+            padding: 8px;
             text-align: left;
-            font-size: 9px;
+            font-size: 10px;
         }
 
         td {
             border-bottom: 1px solid #ddd;
-            padding: 6px;
-            font-size: 9px;
+            padding: 8px;
+            font-size: 10px;
         }
 
-        .page-break {
-            page-break-after: always;
-        }
-
-        .meta {
-            margin-bottom: 15px;
-            font-size: 11px;
-            color: #444;
+        .text-center {
+            text-align: center;
         }
     </style>
 </head>
 
 <body>
     <div class="header">
-        <table style="width: 100%; border-bottom: 2px solid #F59E0B; margin-bottom: 10px;">
+        <table style="width: 100%; border-bottom: 2px solid #2D2E83; margin-bottom: 10px;">
             <tr>
                 <td style="width: 20%; border: none; text-align: left; vertical-align: middle;">
                     <img src="{{ public_path('logo_sebaco.jpg') }}" alt="Logo" style="max-width: 80px; height: auto;">
@@ -72,8 +67,8 @@
                         DE SÉBACO</h1>
                     <p style="font-size: 12px; font-weight: bold; color: #2D2E83; margin: 5px 0;">DEPARTAMENTO DE
                         ACTIVOS FIJOS</p>
-                    <h2 class="title" style="margin: 5px 0; font-size: 14px; text-align: center; color: #d97706;">
-                        Historial de Acciones y Movimientos</h2>
+                    <h2 class="title" style="margin: 5px 0; font-size: 14px; text-align: center; color: #2D2E83;">
+                        Reporte de Usuarios y Accesos</h2>
                     <p class="subtitle" style="margin: 0; font-size: 10px; text-align: center; color: #666;">SIAFSEB -
                         Sistema de Activos Fijos</p>
                 </td>
@@ -92,41 +87,34 @@
         </div>
     </div>
 
-
-
     <table>
         <thead>
             <tr>
-                <th>Fecha</th>
-                <th>Activo</th>
-                <th>Origen</th>
-                <th>Destino</th>
-                <th>Responsable Ant.</th>
-                <th>Responsable Nuevo</th>
-                <th>Autorizado</th>
+                <th>Nombre</th>
+                <th>Correo Electrónico</th>
+                <th>Rol Asignado</th>
+                <th class="text-center">Estado</th>
+                <th>Último Ingreso</th>
             </tr>
         </thead>
         <tbody>
-            @forelse($movimientos as $mov)
+            @foreach($usuarios as $user)
                 <tr>
-                    <td>{{ $mov->fecha_movimiento }}</td>
-                    <td>
-                        <strong>{{ $mov->activoFijo->codigo ?? 'N/A' }}</strong><br>
-                        <span
-                            style="font-size: 8px; color: #666;">{{ Str::limit($mov->activoFijo->descripcion ?? '', 20) }}</span>
+                    <td><strong>{{ $user->nombre }}</strong></td>
+                    <td>{{ $user->email }}</td>
+                    <td>{{ $user->role->nombre ?? ($user->rol ?? 'Sin Rol') }}</td>
+                    <td class="text-center">
+                        @if($user->activo)
+                            <span style="color: #059669; font-weight: bold;">Activo</span>
+                        @else
+                            <span style="color: #dc2626; font-weight: bold;">Inactivo</span>
+                        @endif
                     </td>
-                    <td>{{ $mov->ubicacionOrigen->nombre ?? '-' }}</td>
-                    <td>{{ $mov->ubicacionDestino->nombre ?? '-' }}</td>
-                    <td>{{ $mov->responsableOrigen->nombre_completo ?? '-' }}</td>
-                    <td><strong>{{ $mov->responsableDestino->nombre_completo ?? '-' }}</strong></td>
-                    <td>{{ $mov->autorizadoPor->nombre ?? 'Sistema' }}</td>
+                    <td>
+                        {{ $user->last_login_at ? \Carbon\Carbon::parse($user->last_login_at)->format('d/m/Y h:i A') : 'Nunca' }}
+                    </td>
                 </tr>
-            @empty
-                <tr>
-                    <td colspan="7" style="text-align: center; padding: 20px;">No se encontraron movimientos registrados en
-                        el periodo seleccionado.</td>
-                </tr>
-            @endforelse
+            @endforeach
         </tbody>
     </table>
 </body>

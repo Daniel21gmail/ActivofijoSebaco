@@ -179,7 +179,9 @@ class ActivoFijoController extends Controller
 
         return Inertia::render('ActivosFijos/Print', [
             'item' => $item,
-            'qrCode' => base64_encode(\SimpleSoftwareIO\QrCode\Facades\QrCode::format('svg')->size(200)->generate(route('activos-fijos.print', $activoFijo->id)))
+            'qrCode' => base64_encode(\SimpleSoftwareIO\QrCode\Facades\QrCode::format('svg')
+                ->size(200)
+                ->generate(config('app.url') . route('activos-fijos.print', $activoFijo->id, false)))
         ]);
     }
 

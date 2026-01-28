@@ -84,14 +84,17 @@
                     <img src="{{ public_path('logo_sebaco.jpg') }}" alt="Logo" style="max-width: 80px; height: auto;">
                 </td>
                 <td style="width: 60%; border: none; text-align: center; vertical-align: middle;">
-                    <h1 style="margin: 0; font-size: 16px; text-transform: uppercase; color: #111;">ALCALDÍA MUNICIPAL DE SÉBACO</h1>
+                    <h1 style="margin: 0; font-size: 16px; text-transform: uppercase; color: #111;">ALCALDÍA MUNICIPAL
+                        DE SÉBACO</h1>
+                    <p style="font-size: 12px; font-weight: bold; color: #2D2E83; margin: 5px 0;">DEPARTAMENTO DE
+                        ACTIVOS FIJOS</p>
                     <h2 style="margin: 5px 0; font-size: 14px; color: #444;">Reporte General de Activos Fijos</h2>
-                    <p style="margin: 0; font-size: 10px; color: #666;">Sistema Integrado de Activos Fijos (SIAFSEB)</p>
+                    <p style="margin: 0; font-size: 10px; color: #666;">SIAFSEB - Sistema de Activos Fijos</p>
                 </td>
                 <td style="width: 20%; border: none;"></td>
             </tr>
         </table>
-        
+
         <div style="margin-top: 5px;">
             <div style="float: left; width: 50%; text-align: left;">
                 <strong>Fecha:</strong> {{ date('d/m/Y H:i') }}

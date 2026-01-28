@@ -2,7 +2,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
-import { ClipboardList, BarChart3, Layers, Activity, BookOpen, CalendarDays, Wrench } from 'lucide-vue-next';
+import { ClipboardList, BarChart3, Layers, Activity, BookOpen, CalendarDays, Wrench, Users } from 'lucide-vue-next';
 
 const reportOptions = [
     { id: 'inventario', label: 'Inventario General', desc: 'Listado completo y detallado de todos los activos fijos registrados.', icon: ClipboardList, color: 'text-blue-500', bg: 'bg-blue-50 dark:bg-blue-900/20' },
@@ -10,6 +10,7 @@ const reportOptions = [
     { id: 'categoria', label: 'Por Categoría', desc: 'Clasificación organizada de bienes según su naturaleza técnica.', icon: Layers, color: 'text-indigo-500', bg: 'bg-indigo-50 dark:bg-indigo-900/20' },
     { id: 'acciones', label: 'Movimientos de Activos', desc: 'Auditoría completa de movimientos, cambios y gestiones realizadas.', icon: Activity, color: 'text-amber-500', bg: 'bg-amber-50 dark:bg-amber-900/20' },
     { id: 'mantenimientos', label: 'Mantenimientos', desc: 'Reporte detallado de mantenimientos preventivos y correctivos.', icon: Wrench, color: 'text-rose-500', bg: 'bg-rose-50 dark:bg-rose-900/20' },
+    { id: 'usuarios', label: 'Usuarios y Accesos', desc: 'Listado de usuarios del sistema con roles asignados y registro de accesos.', icon: Users, color: 'text-teal-500', bg: 'bg-teal-50 dark:bg-teal-900/20' },
     { id: 'libro_activos', label: 'Libro de Activos', desc: 'Registro pormenorizado para cumplimiento de normativas externas.', icon: BookOpen, color: 'text-purple-500', bg: 'bg-purple-50 dark:bg-purple-900/20' },
     { id: 'resumen_mensual', label: 'Resumen Mensual', desc: 'Consolidado de altas y bajas durante el ciclo de operación actual.', icon: CalendarDays, color: 'text-cyan-500', bg: 'bg-cyan-50 dark:bg-cyan-900/20' },
 ];
@@ -19,18 +20,46 @@ const showReportView = ref(false); // Default to GRID view
 
 const props = defineProps({
     catalogs: Object,
-    preview_data: Object
+    preview_data: Object,
+    filters: Object
 });
 
 const filters = ref({
-    departamento_id: '',
-    ubicacion_id: '',
-    responsable_id: '',
-    categoria_id: '',
-    estado_activo_id: '',
-    fecha_inicio: '',
-    fecha_fin: ''
+    departamento_id: props.filters?.departamento_id || '',
+    ubicacion_id: props.filters?.ubicacion_id || '',
+    responsable_id: props.filters?.responsable_id || '',
+    categoria_id: props.filters?.categoria_id || '',
+    estado_activo_id: props.filters?.estado_activo_id || '',
+    fecha_inicio: props.filters?.fecha_inicio || '',
+    fecha_fin: props.filters?.fecha_fin || ''
 });
+
+// Initialize view based on URL params
+const updateReportFromParams = () => {
+    if (props.filters?.report_type) {
+        const found = reportOptions.find(r => r.id === props.filters.report_type);
+        if (found) {
+            selectedReport.value = found;
+            showReportView.value = true;
+        }
+    }
+};
+
+updateReportFromParams();
+
+watch(() => props.filters, () => {
+    updateReportFromParams();
+    // Also update local filters ref to match URL
+    filters.value = {
+        departamento_id: props.filters?.departamento_id || '',
+        ubicacion_id: props.filters?.ubicacion_id || '',
+        responsable_id: props.filters?.responsable_id || '',
+        categoria_id: props.filters?.categoria_id || '',
+        estado_activo_id: props.filters?.estado_activo_id || '',
+        fecha_inicio: props.filters?.fecha_inicio || '',
+        fecha_fin: props.filters?.fecha_fin || ''
+    };
+}, { deep: true });
 
 const selectReport = (option) => {
     selectedReport.value = option;
@@ -311,6 +340,33 @@ const clearFilters = () => {
                                             <th class="px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider text-right">Valor Total</th>
                                         </template>
 
+                                        <!-- Headers for Libro de Activos -->
+                                        <template v-else-if="selectedReport.id === 'libro_activos'">
+                                            <th class="px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Código</th>
+                                            <th class="px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Activo</th>
+                                            <th class="px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider text-right">Valor Adq.</th>
+                                            <th class="px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider text-right">Deprec.</th>
+                                            <th class="px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider text-right">Valor Libros</th>
+                                        </template>
+
+                                        <!-- Headers for Resumen Mensual -->
+                                        <template v-else-if="selectedReport.id === 'resumen_mensual'">
+                                            <th class="px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Fecha Alta</th>
+                                            <th class="px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Código</th>
+                                            <th class="px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Descripción</th>
+                                            <th class="px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider text-right">Valor</th>
+                                            <th class="px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Ubicación</th>
+                                        </template>
+
+                                        <!-- Headers for Usuarios -->
+                                        <template v-else-if="selectedReport.id === 'usuarios'">
+                                            <th class="px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Usuario</th>
+                                            <th class="px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Correo</th>
+                                            <th class="px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Rol</th>
+                                            <th class="px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider text-center">Estado</th>
+                                            <th class="px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Último Acceso</th>
+                                        </template>
+
                                         <!-- Default Headers -->
                                         <template v-else>
                                             <th class="px-6 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">ID</th>
@@ -364,7 +420,38 @@ const clearFilters = () => {
                                             <td class="px-6 py-3 text-xs text-emerald-600 font-bold text-right">C$ {{ item.valor_total?.toFixed(2) }}</td>
                                          </template>
 
-                                         <!-- Default Rows -->
+                                         <!-- Rows for Libro de Activos -->
+                                         <template v-else-if="selectedReport.id === 'libro_activos'">
+                                            <td class="px-6 py-3 text-xs font-semibold text-gray-900">{{ item.codigo }}</td>
+                                            <td class="px-6 py-3 text-xs text-gray-500">{{ item.descripcion }}</td>
+                                            <td class="px-6 py-3 text-xs text-gray-900 text-right font-medium">C$ {{ item.valor_adquisicion ? parseFloat(item.valor_adquisicion).toLocaleString('en-US', {minimumFractionDigits: 2}) : '0.00' }}</td>
+                                            <td class="px-6 py-3 text-xs text-amber-600 text-right font-medium">C$ {{ item.depreciacion_acumulada ? parseFloat(item.depreciacion_acumulada).toLocaleString('en-US', {minimumFractionDigits: 2}) : '0.00' }}</td>
+                                            <td class="px-6 py-3 text-xs text-emerald-600 text-right font-bold">C$ {{ item.valor_libros ? parseFloat(item.valor_libros).toLocaleString('en-US', {minimumFractionDigits: 2}) : '0.00' }}</td>
+                                         </template>
+
+                                         <!-- Rows for Resumen Mensual -->
+                                         <template v-else-if="selectedReport.id === 'resumen_mensual'">
+                                            <td class="px-6 py-3 text-xs font-semibold text-gray-900">{{ item.created_at ? new Date(item.created_at).toLocaleDateString('es-ES') : '-' }}</td>
+                                            <td class="px-6 py-3 text-xs font-bold text-gray-700">{{ item.codigo }}</td>
+                                            <td class="px-6 py-3 text-xs text-gray-500">{{ item.descripcion }}</td>
+                                            <td class="px-6 py-3 text-xs text-emerald-600 font-bold text-right">C$ {{ item.valor_adquisicion ? parseFloat(item.valor_adquisicion).toLocaleString('en-US', {minimumFractionDigits: 2}) : '0.00' }}</td>
+                                            <td class="px-6 py-3 text-xs text-gray-500">{{ item.ubicacion?.nombre || '-' }}</td>
+                                         </template>
+
+                                         <!-- Rows for Usuarios -->
+                                         <template v-else-if="selectedReport.id === 'usuarios'">
+                                            <td class="px-6 py-3 text-xs font-bold text-gray-700">{{ item.nombre }}</td>
+                                            <td class="px-6 py-3 text-xs text-gray-500">{{ item.email }}</td>
+                                            <td class="px-6 py-3 text-xs text-indigo-600 font-bold">{{ item.role?.nombre || item.rol || 'Sin Rol' }}</td>
+                                            <td class="px-6 py-3 text-center">
+                                                <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider"
+                                                      :class="item.activo ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'">
+                                                    {{ item.activo ? 'Activo' : 'Inactivo' }}
+                                                </span>
+                                            </td>
+                                            <td class="px-6 py-3 text-xs text-gray-500">{{ item.last_login_at ? new Date(item.last_login_at).toLocaleString('es-NI') : 'Nunca' }}</td>
+                                         </template>
+
                                          <template v-else>
                                             <td class="px-6 py-3 text-xs font-semibold text-gray-400">{{ item.codigo }}</td>
                                             <td class="px-6 py-3">

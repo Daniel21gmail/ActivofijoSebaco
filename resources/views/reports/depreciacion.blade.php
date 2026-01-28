@@ -75,8 +75,10 @@
                 <td style="width: 60%; border: none; text-align: center; vertical-align: middle;">
                     <h1 style="margin: 0; font-size: 16px; text-transform: uppercase; color: #111;">ALCALDÍA MUNICIPAL
                         DE SÉBACO</h1>
+                    <p style="font-size: 12px; font-weight: bold; color: #2D2E83; margin: 5px 0;">DEPARTAMENTO DE
+                        ACTIVOS FIJOS</p>
                     <h2 class="title" style="margin: 5px 0; font-size: 14px; text-align: center; color: #d97706;">
-                        REPORTE DE CÁLCULO DE DEPRECIACIÓN</h2>
+                        Reporte de Cálculo de Depreciación</h2>
                     <p class="subtitle" style="margin: 0; font-size: 10px; text-align: center; color: #666;">SIAFSEB -
                         Sistema de Activos Fijos</p>
                 </td>
