@@ -177,11 +177,18 @@ class ActivoFijoController extends Controller
             'bajaActivo.autorizadoPor'
         ]);
 
+        $publicUrl = route('activos-fijos.public-show', $activoFijo->id);
+
+        // Si hay una URL de Ngrok definida, la usamos para el QR
+        if (env('NGROK_URL')) {
+            $publicUrl = str_replace(url('/'), env('NGROK_URL'), $publicUrl);
+        }
+
         return Inertia::render('ActivosFijos/Print', [
             'item' => $item,
             'qrCode' => base64_encode(\SimpleSoftwareIO\QrCode\Facades\QrCode::format('svg')
                 ->size(200)
-                ->generate(config('app.url') . route('activos-fijos.print', $activoFijo->id, false)))
+                ->generate($publicUrl))
         ]);
     }
 
@@ -204,5 +211,41 @@ class ActivoFijoController extends Controller
         $nextCode = $categoria->codigo . '-' . str_pad($sequence, 4, '0', STR_PAD_LEFT);
 
         return response()->json(['code' => $nextCode]);
+    }
+
+    public function publicShow(ActivoFijo $activoFijo)
+    {
+        $item = $activoFijo->load([
+            'marca',
+            'modelo',
+            'color',
+            'estadoActivo',
+            'ubicacion',
+            'categoria',
+            'departamento',
+            'responsable'
+        ]);
+
+        // Explicitly select only public-safe data
+        $safeData = [
+            'codigo' => $item->codigo,
+            'descripcion' => $item->descripcion,
+            'serie' => $item->serie,
+            'imagen' => $item->imagen,
+
+            // Relationships (flattened for safety/simplicity)
+            'categoria' => $item->categoria ? ['nombre' => $item->categoria->nombre] : null,
+            'marca' => $item->marca ? ['nombre' => $item->marca->nombre] : null,
+            'modelo' => $item->modelo ? ['nombre' => $item->modelo->nombre] : null,
+            'color' => $item->color ? ['nombre' => $item->color->nombre] : null,
+            'estado_activo' => $item->estadoActivo ? ['nombre' => $item->estadoActivo->nombre] : null,
+            'ubicacion' => $item->ubicacion ? ['nombre' => $item->ubicacion->nombre] : null,
+            'departamento' => $item->departamento ? ['nombre' => $item->departamento->nombre] : null,
+            'responsable' => $item->responsable ? ['nombre_completo' => $item->responsable->nombre_completo] : null,
+        ];
+
+        return Inertia::render('ActivosFijos/PublicShow', [
+            'item' => $safeData
+        ]);
     }
 }
